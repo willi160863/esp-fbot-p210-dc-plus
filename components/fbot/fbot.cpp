@@ -527,7 +527,31 @@ void Fbot::parse_settings_notification(const uint8_t *data, uint16_t length) {
     }
   }
 #endif
-  
+  // ============================================================
+  // P210 DC DIAGNOSTICS - READ ONLY
+  // Register 15 and 20 are only read here.
+  // No values are written to the powerstation.
+  // ============================================================
+
+  uint16_t dc_input_mode_raw =
+      this->get_register(data, length, REG_DC_INPUT_MODE);
+
+  uint16_t dc_charge_current_raw =
+      this->get_register(data, length, REG_DC_CHARGE_CURRENT);
+
+  if (this->dc_input_mode_raw_sensor_ != nullptr) {
+    this->dc_input_mode_raw_sensor_->publish_state(dc_input_mode_raw);
+  }
+
+  if (this->dc_charge_current_raw_sensor_ != nullptr) {
+    this->dc_charge_current_raw_sensor_->publish_state(dc_charge_current_raw);
+  }
+
+  ESP_LOGI(TAG,
+           "P210 DC diagnostics: register 15=%u, register 20=%u",
+           dc_input_mode_raw,
+           dc_charge_current_raw);
+
   // Parse threshold registers (66 and 67 from holding registers)
   // Values are in permille (divide by 10 for percentage)
   float threshold_discharge = this->get_register(data, length, REG_THRESHOLD_DISCHARGE) / 10.0f;
