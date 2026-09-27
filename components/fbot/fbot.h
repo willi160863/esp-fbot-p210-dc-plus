@@ -79,6 +79,8 @@ class Fbot : public esphome::ble_client::BLEClientNode, public Component {
   void set_usb_c2_power_sensor(sensor::Sensor *s) { usb_c2_power_sensor_=s; }
   void set_usb_c3_power_sensor(sensor::Sensor *s) { usb_c3_power_sensor_=s; }
   void set_usb_c4_power_sensor(sensor::Sensor *s) { usb_c4_power_sensor_=s; }
+  void set_dc_input_mode_raw_sensor(sensor::Sensor *s) { dc_input_mode_raw_sensor_=s; }
+  void set_dc_charge_current_raw_sensor(sensor::Sensor *s) { dc_charge_current_raw_sensor_=s; }
 
   void set_connected_binary_sensor(binary_sensor::BinarySensor *s){connected_binary_sensor_=s;}
   void set_battery_connected_s1_binary_sensor(binary_sensor::BinarySensor *s){battery_connected_s1_binary_sensor_=s;}
@@ -111,7 +113,7 @@ class Fbot : public esphome::ble_client::BLEClientNode, public Component {
   uint32_t polling_interval_{2000}, settings_polling_interval_{60000}, last_poll_time_{0}, last_successful_poll_{0}, last_settings_request_time_{0};
   bool connected_{false}, characteristics_discovered_{false}, settings_received_{false};
   uint8_t consecutive_poll_failures_{0}, max_poll_failures_{3}; uint32_t poll_timeout_ms_{15000};
-  sensor::Sensor *battery_percent_sensor_{nullptr},*battery_percent_s1_sensor_{nullptr},*battery_percent_s2_sensor_{nullptr},*input_power_sensor_{nullptr},*ac_input_power_sensor_{nullptr},*dc_input_power_sensor_{nullptr},*output_power_sensor_{nullptr},*system_power_sensor_{nullptr},*total_power_sensor_{nullptr},*remaining_time_sensor_{nullptr},*threshold_charge_sensor_{nullptr},*threshold_discharge_sensor_{nullptr},*charge_level_sensor_{nullptr},*ac_out_voltage_sensor_{nullptr},*ac_out_frequency_sensor_{nullptr},*ac_in_frequency_sensor_{nullptr},*time_to_full_sensor_{nullptr},*usb_a1_power_sensor_{nullptr},*usb_a2_power_sensor_{nullptr},*usb_c1_power_sensor_{nullptr},*usb_c2_power_sensor_{nullptr},*usb_c3_power_sensor_{nullptr},*usb_c4_power_sensor_{nullptr};
+  sensor::Sensor *battery_percent_sensor_{nullptr},*battery_percent_s1_sensor_{nullptr},*battery_percent_s2_sensor_{nullptr},*input_power_sensor_{nullptr},*ac_input_power_sensor_{nullptr},*dc_input_power_sensor_{nullptr},*output_power_sensor_{nullptr},*system_power_sensor_{nullptr},*total_power_sensor_{nullptr},*remaining_time_sensor_{nullptr},*threshold_charge_sensor_{nullptr},*threshold_discharge_sensor_{nullptr},*charge_level_sensor_{nullptr},*ac_out_voltage_sensor_{nullptr},*ac_out_frequency_sensor_{nullptr},*ac_in_frequency_sensor_{nullptr},*time_to_full_sensor_{nullptr},*usb_a1_power_sensor_{nullptr},*usb_a2_power_sensor_{nullptr},*usb_c1_power_sensor_{nullptr},*usb_c2_power_sensor_{nullptr},*usb_c3_power_sensor_{nullptr},*usb_c4_power_sensor_{nullptr},*dc_input_mode_raw_sensor_{nullptr},*dc_charge_current_raw_sensor_{nullptr};
   binary_sensor::BinarySensor *connected_binary_sensor_{nullptr},*battery_connected_s1_binary_sensor_{nullptr},*battery_connected_s2_binary_sensor_{nullptr},*usb_active_binary_sensor_{nullptr},*dc_active_binary_sensor_{nullptr},*ac_active_binary_sensor_{nullptr},*light_active_binary_sensor_{nullptr};
   switch_::Switch *usb_switch_{nullptr},*dc_switch_{nullptr},*ac_switch_{nullptr},*light_switch_{nullptr},*ac_silent_switch_{nullptr},*key_sound_switch_{nullptr};
 #ifdef USE_NUMBER
