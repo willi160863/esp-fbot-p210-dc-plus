@@ -551,7 +551,27 @@ void Fbot::parse_settings_notification(const uint8_t *data, uint16_t length) {
            "P210 DC diagnostics: register 15=%u, register 20=%u",
            dc_input_mode_raw,
            dc_charge_current_raw);
+  
+#ifdef USE_SELECT
+  // Synchronize the Home Assistant DC Input Mode control
+  // with the value actually read back from P210 register 15.
+  if (this->dc_input_mode_select_ != nullptr) {
+    if (dc_input_mode_raw == 0) {
+      this->dc_input_mode_select_->publish_state("PV/MPPT");
+    } else if (dc_input_mode_raw == 1) {
+      this->dc_input_mode_select_->publish_state("DC Source");
+    }
+  }
+#endif
 
+#ifdef USE_NUMBER
+  // Synchronize the Home Assistant DC Charge Current control
+  // with the value actually read back from P210 register 20.
+  if (this->dc_charge_current_number_ != nullptr) {
+    this->dc_charge_current_number_->publish_state(
+        static_cast<float>(dc_charge_current_raw));
+  }
+#endif
   // Parse threshold registers (66 and 67 from holding registers)
   // Values are in permille (divide by 10 for percentage)
   float threshold_discharge = this->get_register(data, length, REG_THRESHOLD_DISCHARGE) / 10.0f;
