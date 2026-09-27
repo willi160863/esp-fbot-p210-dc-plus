@@ -24,24 +24,22 @@ void FbotNumber::control(float value) {
     return;
   }
 
-  // Check if device is connected before allowing changes
   if (!this->parent_->is_connected()) {
     ESP_LOGW(TAG, "Cannot change number '%s': device is disconnected", this->number_type_.c_str());
     return;
   }
 
-  // Call the appropriate control method based on number type
   if (this->number_type_ == "threshold_charge") {
     this->parent_->set_threshold_charge(value);
   } else if (this->number_type_ == "threshold_discharge") {
     this->parent_->set_threshold_discharge(value);
+  } else if (this->number_type_ == "dc_charge_current") {
+    this->parent_->set_dc_charge_current(value);
   } else {
     ESP_LOGW(TAG, "Unknown number type: %s", this->number_type_.c_str());
     return;
   }
 
-  // Publish the new value optimistically
-  // The actual value will be confirmed when the next status update arrives
   this->publish_state(value);
 }
 
