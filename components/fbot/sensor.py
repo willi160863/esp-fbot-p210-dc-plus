@@ -46,6 +46,7 @@ CONF_USB_C3_POWER = "usb_c3_power"
 CONF_USB_C4_POWER = "usb_c4_power"
 CONF_DC_INPUT_MODE_RAW = "dc_input_mode_raw"
 CONF_DC_CHARGE_CURRENT_RAW = "dc_charge_current_raw"
+CONF_AC_CHARGE_APPOINTMENT_RAW = "ac_charge_appointment_raw"
 
 CONFIG_SCHEMA = cv.Schema(
     {
@@ -75,6 +76,7 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_USB_C4_POWER): sensor.sensor_schema(unit_of_measurement=UNIT_WATT, accuracy_decimals=1, device_class=DEVICE_CLASS_POWER, state_class=STATE_CLASS_MEASUREMENT),
         cv.Optional(CONF_DC_INPUT_MODE_RAW): sensor.sensor_schema(accuracy_decimals=0, state_class=STATE_CLASS_MEASUREMENT),
         cv.Optional(CONF_DC_CHARGE_CURRENT_RAW): sensor.sensor_schema(accuracy_decimals=0, state_class=STATE_CLASS_MEASUREMENT),
+        cv.Optional(CONF_AC_CHARGE_APPOINTMENT_RAW): sensor.sensor_schema(accuracy_decimals=0, state_class=STATE_CLASS_MEASUREMENT),
     }
 )
 
@@ -106,6 +108,7 @@ async def to_code(config):
         (CONF_USB_C4_POWER, parent.set_usb_c4_power_sensor),
         (CONF_DC_INPUT_MODE_RAW, parent.set_dc_input_mode_raw_sensor),
         (CONF_DC_CHARGE_CURRENT_RAW, parent.set_dc_charge_current_raw_sensor),
+        (CONF_AC_CHARGE_APPOINTMENT_RAW, parent.set_ac_charge_appointment_raw_sensor),
     ]
     for key, setter in mappings:
         if key in config:
