@@ -538,7 +538,10 @@ void Fbot::parse_settings_notification(const uint8_t *data, uint16_t length) {
 
   uint16_t dc_charge_current_raw =
       this->get_register(data, length, REG_DC_CHARGE_CURRENT);
-
+  
+  uint16_t ac_charge_appointment_raw =
+    this->get_register(data, length, 63);
+  
   if (this->dc_input_mode_raw_sensor_ != nullptr) {
     this->dc_input_mode_raw_sensor_->publish_state(dc_input_mode_raw);
   }
@@ -547,10 +550,15 @@ void Fbot::parse_settings_notification(const uint8_t *data, uint16_t length) {
     this->dc_charge_current_raw_sensor_->publish_state(dc_charge_current_raw);
   }
 
+  if (this->ac_charge_appointment_raw_sensor_ != nullptr) {
+    this->ac_charge_appointment_raw_sensor_->publish_state(ac_charge_appointment_raw);
+  }
+  
   ESP_LOGI(TAG,
-           "P210 DC diagnostics: register 15=%u, register 20=%u",
-           dc_input_mode_raw,
-           dc_charge_current_raw);
+         "P210 diagnostics: register 15=%u, register 20=%u, register 63=%u",
+         dc_input_mode_raw,
+         dc_charge_current_raw,
+         ac_charge_appointment_raw);
   
 #ifdef USE_SELECT
   // Synchronize the Home Assistant DC Input Mode control
