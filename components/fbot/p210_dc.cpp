@@ -23,7 +23,7 @@ void Fbot::set_dc_charge_current(float amps) {
   set_timeout(500, [this]() { send_settings_request(); });
 }
 void Fbot::set_ac_charge_appointment(float minutes) {
-  if (!std::isfinite(minutes) || minutes < 1 || minutes > 1440) {
+  if (!std::isfinite(minutes) || minutes < 0 || minutes > 1440) {
     ESP_LOGW(TAG_P210_DC, "Invalid AC charge appointment: %.1f min", minutes);
     return;
   }

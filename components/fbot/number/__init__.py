@@ -32,7 +32,7 @@ CONFIG_SCHEMA = cv.Schema({
         cv.Optional(CONF_MIN_VALUE, default=1): cv.float_, cv.Optional(CONF_MAX_VALUE, default=20): cv.float_, cv.Optional(CONF_STEP, default=1): cv.float_,
     }),
     cv.Optional(CONF_AC_CHARGE_APPOINTMENT): number.number_schema(FbotNumber, icon="mdi:clock-outline", unit_of_measurement="min").extend({
-        cv.Optional(CONF_MIN_VALUE, default=1): cv.float_, cv.Optional(CONF_MAX_VALUE, default=1440): cv.float_, cv.Optional(CONF_STEP, default=1): cv.float_,
+        cv.Optional(CONF_MIN_VALUE, default=0): cv.float_, cv.Optional(CONF_MAX_VALUE, default=1440): cv.float_, cv.Optional(CONF_STEP, default=1): cv.float_,
     }),
 })
 
