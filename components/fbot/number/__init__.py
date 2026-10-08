@@ -9,6 +9,7 @@ DEPENDENCIES = ["fbot"]
 CONF_THRESHOLD_CHARGE = "threshold_charge"
 CONF_THRESHOLD_DISCHARGE = "threshold_discharge"
 CONF_DC_CHARGE_CURRENT = "dc_charge_current"
+CONF_AC_CHARGE_APPOINTMENT = "ac_charge_appointment"
 
 FbotNumber = fbot_ns.class_("FbotNumber", number.Number, cg.Component)
 
@@ -16,6 +17,7 @@ NUMBER_TYPES = {
     CONF_THRESHOLD_CHARGE: "threshold_charge",
     CONF_THRESHOLD_DISCHARGE: "threshold_discharge",
     CONF_DC_CHARGE_CURRENT: "dc_charge_current",
+    CONF_AC_CHARGE_APPOINTMENT: "ac_charge_appointment",
 }
 
 CONFIG_SCHEMA = cv.Schema({
@@ -28,6 +30,9 @@ CONFIG_SCHEMA = cv.Schema({
     }),
     cv.Optional(CONF_DC_CHARGE_CURRENT): number.number_schema(FbotNumber, icon="mdi:current-dc", unit_of_measurement="A").extend({
         cv.Optional(CONF_MIN_VALUE, default=1): cv.float_, cv.Optional(CONF_MAX_VALUE, default=20): cv.float_, cv.Optional(CONF_STEP, default=1): cv.float_,
+    }),
+    cv.Optional(CONF_AC_CHARGE_APPOINTMENT): number.number_schema(FbotNumber, icon="mdi:clock-outline", unit_of_measurement="min").extend({
+        cv.Optional(CONF_MIN_VALUE, default=1): cv.float_, cv.Optional(CONF_MAX_VALUE, default=1440): cv.float_, cv.Optional(CONF_STEP, default=1): cv.float_,
     }),
 })
 
@@ -45,3 +50,5 @@ async def to_code(config):
                 cg.add(parent.set_threshold_discharge_number(var))
             elif key == CONF_DC_CHARGE_CURRENT:
                 cg.add(parent.set_dc_charge_current_number(var))
+            elif key == CONF_AC_CHARGE_APPOINTMENT:
+                cg.add(parent.set_ac_charge_appointment_number(var))

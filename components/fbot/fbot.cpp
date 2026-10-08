@@ -553,6 +553,11 @@ void Fbot::parse_settings_notification(const uint8_t *data, uint16_t length) {
   if (this->ac_charge_appointment_raw_sensor_ != nullptr) {
     this->ac_charge_appointment_raw_sensor_->publish_state(ac_charge_appointment_raw);
   }
+#ifdef USE_NUMBER
+  if (this->ac_charge_appointment_number_ != nullptr) {
+    this->ac_charge_appointment_number_->publish_state(static_cast<float>(ac_charge_appointment_raw));
+  }
+#endif
   
   ESP_LOGI(TAG,
          "P210 diagnostics: register 15=%u, register 20=%u, register 63=%u",

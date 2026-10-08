@@ -24,6 +24,7 @@ static const char *const NOTIFY_CHAR_UUID = "0000c305-0000-1000-8000-00805f9b34f
 static const uint8_t REG_AC_CHARGE_LIMIT = 13;
 static const uint8_t REG_DC_INPUT_MODE = 15;
 static const uint8_t REG_DC_CHARGE_CURRENT = 20;
+static const uint8_t REG_AC_CHARGE_APPOINTMENT = 63;
 static const uint8_t REG_USB_CONTROL = 24;
 static const uint8_t REG_DC_CONTROL = 25;
 static const uint8_t REG_AC_CONTROL = 26;
@@ -103,10 +104,11 @@ class Fbot : public esphome::ble_client::BLEClientNode, public Component {
   void set_threshold_charge_number(number::Number *n){threshold_charge_number_=n;}
   void set_threshold_discharge_number(number::Number *n){threshold_discharge_number_=n;}
   void set_dc_charge_current_number(number::Number *n){dc_charge_current_number_=n;}
+  void set_ac_charge_appointment_number(number::Number *n){ac_charge_appointment_number_=n;}
 #endif
   void control_usb(bool); void control_dc(bool); void control_ac(bool); void control_light(bool); void control_ac_silent(bool); void control_key_sound(bool);
   void control_light_mode(const std::string&); void control_ac_charge_limit(const std::string&); void control_dc_input_mode(const std::string&);
-  void set_threshold_charge(float); void set_threshold_discharge(float); void set_dc_charge_current(float);
+  void set_threshold_charge(float); void set_threshold_discharge(float); void set_dc_charge_current(float); void set_ac_charge_appointment(float);
   void set_wifi_credentials(const std::string&, const std::string&);
   bool is_connected() const { return connected_; }
  protected:
@@ -143,7 +145,7 @@ class Fbot : public esphome::ble_client::BLEClientNode, public Component {
   binary_sensor::BinarySensor *connected_binary_sensor_{nullptr},*battery_connected_s1_binary_sensor_{nullptr},*battery_connected_s2_binary_sensor_{nullptr},*usb_active_binary_sensor_{nullptr},*dc_active_binary_sensor_{nullptr},*ac_active_binary_sensor_{nullptr},*light_active_binary_sensor_{nullptr};
   switch_::Switch *usb_switch_{nullptr},*dc_switch_{nullptr},*ac_switch_{nullptr},*light_switch_{nullptr},*ac_silent_switch_{nullptr},*key_sound_switch_{nullptr};
 #ifdef USE_NUMBER
-  number::Number *threshold_charge_number_{nullptr},*threshold_discharge_number_{nullptr},*dc_charge_current_number_{nullptr};
+  number::Number *threshold_charge_number_{nullptr},*threshold_discharge_number_{nullptr},*dc_charge_current_number_{nullptr},*ac_charge_appointment_number_{nullptr};
 #endif
 #ifdef USE_SELECT
   select::Select *light_mode_select_{nullptr},*ac_charge_limit_select_{nullptr},*dc_input_mode_select_{nullptr};
